@@ -3,14 +3,46 @@ import {dummyCreationData} from '../assets/assets'
 import { Sparkles,Gem } from "lucide-react";
 import { Protect } from "@clerk/clerk-react";
 import CreationItem from "../components/CreationItem"
+import {useAuth} from '@clerk/clerk-react'
+import toast from 'react-hot-toast'
+import axios from 'axios'
+
+axios.defaults.baseURL=import.meta.env.VITE_BASE_URL
 
 const Dashboard=()=>{
 
     const [creations, setCreations]=useState([]);
+    const [loading, setLoading]=useState(true)
+    const {getToken}=useAuth()
 
-    const getDashboardData=async ()=>{
-        setCreations(dummyCreationData)
-    }
+    const getDashboardData = async () => {
+        try {
+            const token = await getToken();
+
+            console.log("TOKEN:", token);
+
+            const { data } = await axios.get('/api/user/get-user-creations', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            console.log("API RESPONSE:", data);
+
+            if (data.success) {
+                console.log("CREATIONS:", data.creations);
+                setCreations(data.creations);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            console.error("DASHBOARD ERROR:", error);
+            console.error("SERVER RESPONSE:", error.response?.data);
+            toast.error(error.message);
+        }
+
+        setLoading(false);
+    };
 
     useEffect(()=>{
         getDashboardData()
@@ -41,6 +73,15 @@ const Dashboard=()=>{
                     </div>
                 </div>
             </div>
+            {
+                loading?
+                (
+                    <div className="flex justify-center items-center h-3/4">
+                        <div className="animate-spin rounded-full h-11 w-11 border-3 border-purple-500
+                        border-t-transport"></div>
+                    </div>
+                )
+                :(
             <div className="space-y-3">
                 <p className="mt-6 mb-4">Recent Creation</p>
             {
@@ -48,6 +89,8 @@ const Dashboard=()=>{
                     <CreationItem key={item.id} item={item}/>)
             }
             </div>
+                )
+            }
         </div>
     )
 }

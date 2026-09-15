@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/ai', requireAuth(), aiRouter)
-app.use('api/user', requireAuth(), userRouter)
+app.use('/api/user', requireAuth(), userRouter)
 
 const PORT = process.env.PORT || 4848
 

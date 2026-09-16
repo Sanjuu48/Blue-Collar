@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
 import WriteArticle from "./pages/WriteArticle";
-import BlogTitles from "./pages/Blogtitles";
+import BlogTitles from "./pages/BlogTitles";
 import GenerateImages from "./pages/GenerateImages";
 import RemoveBackground from "./pages/RemoveBackground";
 import RemoveObject from "./pages/RemoveObject";

@@ -1,4 +1,3 @@
-Backend/.env
-Frontend/.env
+.env
 
 node_modules

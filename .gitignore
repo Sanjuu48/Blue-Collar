@@ -1,3 +1,22 @@
+# Environment variables
 .env
+.env.*
+!.env.example
 
-node_modules
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Build files
+dist/
+build/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
